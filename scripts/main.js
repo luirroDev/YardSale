@@ -5,10 +5,13 @@ const mobileMenu = document.querySelector('.mobile-menu');
 const navShoppingCart = document.querySelector('.navbar-shopping-cart');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
 const cards = document.querySelector('.cards-container');
+const productDetailClose = document.querySelector('.product-detail-close');
+const productDetail = document.querySelector('#product-detail');
 
 nav_email.addEventListener('click', toggleDesktopMenu);
 burguerMobileMenu.addEventListener('click', toggleMobileMenu);
-navShoppingCart.addEventListener('click', toggleProductDetail);
+navShoppingCart.addEventListener('click', shoppingCart);
+productDetailClose.addEventListener('click', closeProductDetail);
 
 function toggleDesktopMenu() {
   desktopMenu.classList.toggle('inactive');
@@ -25,9 +28,12 @@ function toggleMobileMenu() {
   if (!shoppingCartContainer.classList.contains('inactive')) {
     shoppingCartContainer.classList.add('inactive');
   }
+  if (!productDetail.classList.contains('inactive')) {
+    productDetail.classList.add('inactive');
+  }
 }
 
-function toggleProductDetail() {
+function shoppingCart() {
   shoppingCartContainer.classList.toggle('inactive');
 
   if (!mobileMenu.classList.contains('inactive')) {
@@ -36,6 +42,17 @@ function toggleProductDetail() {
   if (!desktopMenu.classList.contains('inactive')) {
     desktopMenu.classList.add('inactive');
   }
+  if (!productDetail.classList.contains('inactive')) {
+    productDetail.classList.add('inactive');
+  }
+}
+
+function closeProductDetail() {
+  productDetail.classList.add('inactive');
+}
+
+function openProductDetail (){
+  productDetail.classList.remove('inactive');
 }
 
 // Crear un Array para introducirle diferentes productos
@@ -61,14 +78,15 @@ productList.push({
   image: 'https://images.pexels.com/photos/5083411/pexels-photo-5083411.jpeg?auto=compress&cs=tinysrgb&w=1600'
 });
 
-function renderProducts (arr) {
+function renderProducts (p) {
   //Iteramos sobre el Array para hacer una correcta manipulacion del DOM
-for (arr of productList) {
+for (p of productList) {
   const productCard = document.createElement('div');
   productCard.classList.add('product-card');
 
   const productImage = document.createElement('img');
-  productImage.setAttribute('src', arr.image);
+  productImage.setAttribute('src', p.image);
+  productImage.addEventListener('click', openProductDetail);
 
   const productInfo = document.createElement('div');
   productInfo.classList.add('product-info');
@@ -76,9 +94,9 @@ for (arr of productList) {
   const productInfoDiv = document.createElement('div');
 
   const productPrice = document.createElement('p');
-  productPrice.innerText = '$' + arr.price; 
+  productPrice.innerText = '$' + p.price; 
   const productName = document.createElement('p');
-  productName.innerText = arr.name;  
+  productName.innerText = p.name;  
 
   productInfoDiv.appendChild(productPrice);
   productInfoDiv.appendChild(productName);
